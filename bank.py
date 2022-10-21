@@ -36,6 +36,8 @@ class user:
             print("your amount account:",self.deposit)
         else:
             print("your not amount ")  
+    def show_balance(self):
+        return self.deposit        
               
 
 
@@ -51,8 +53,8 @@ while num != 0:
     print("\t2.  SHOW ACOOUNT DETAILS")
     print("\t3. DEPOSIT AMOUNT")
     print("\t4. WITHDRAW AMOUNT")
-    print("\t5. ALL ACCOUNT HOLDER LIST")
-    print("\tSelect Your Option (1-8) ")
+    print("\t5. SHOW BALANCE")
+    print("\tSelect Your Option (1-5) ")
     input_user = input()
     if input_user == "1":
         bank.create_account()
@@ -66,6 +68,8 @@ while num != 0:
         bank.deposit()       
     elif input_user == "4":
         bank.withraw()    
+    elif input_user == "5":
+        bank.show_balance()    
     else:
         print("Invalid choice")  
         input_user = input("Enter your choice : ")  
