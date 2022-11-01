@@ -16,14 +16,14 @@ class user:
     age = 0
     deposit = 0
     def create_account(self):
-        date = datetime.datetime.now()
+        self.date = datetime.datetime.now()
         self.id_number = random.randint(10_000, 99_999)
         self.name = input("please enter your name:")
         self.family = input("please enter your family:")
         self.age = input("please enter your age:")
         self.deposit = int(input("please enter your amount deposit:"))
         print("\n\n Account created")
-        print(date)
+        print(self.date.strftime("%x"))
         print("Account Id Number: ",self.id_number)
         
 
@@ -72,13 +72,13 @@ while num != 0:
     print("\t3. DEPOSIT AMOUNT")
     print("\t4. WITHDRAW AMOUNT")
     print("\t5. SHOW BALANCE")
-    print("\t6. EXIT PROGRRAM")
+    print("\t6. EXIT PROGRAM")
     print("\tSelect Your Option (1-6) ")
     input_user = input()
     if input_user == "1":
         bank.create_account()
-        sql = "INSERT INTO user (`id`,`name`, `family`, `age`, `deposit`) VALUES (%s, %s, %s, %s, %s)"
-        val = (bank.id_number,bank.name,bank.family,bank.age,bank.deposit)
+        sql = "INSERT INTO user (`id`,`name`, `family`, `age`, `deposit` , `date` ) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (bank.id_number,bank.name,bank.family,bank.age,bank.deposit,bank.date.strftime("%x"))
         mycursor.execute(sql,val)
         mydb.commit()
     elif input_user == "2":
@@ -88,7 +88,12 @@ while num != 0:
         mycursor.execute(sql,value)
         myresult = mycursor.fetchall()
         for x in myresult:
-         print(x)
+         print("number id:",x[0])
+         print("username:",x[1])
+         print("family:",x[2]) 
+         print("age:",x[3]) 
+         print("deposit:",x[4])
+         print("account date created:",x[5])
          
         
     elif input_user == "3":
