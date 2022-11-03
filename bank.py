@@ -43,7 +43,7 @@ class user:
     def deposit_account(self):
         amount = int(input("please enter amoumt deposit:"))
         self.deposit += amount
-        print("your amount account:",self.deposit)
+        # print("your amount account:",self.deposit)
              
     def withraw_account(self):
         withraw = int(input("please enter your withrawll amount:"))
@@ -61,8 +61,8 @@ class user:
 
 bank = user()                
 input_user =""
-num = 2
-while num != 0:
+num = 3
+while num == 3:
     print("\t\t\t\t**********************")
     print("\t\t\t\tBANK MANAGEMENT SYSTEM")
     print("\t\t\t\t**********************")
@@ -98,15 +98,50 @@ while num != 0:
         
     elif input_user == "3":
         id_input = input("please enter account number:")
-        bank.deposit_account()  
-        update ="UPDATE user SET deposit = (%s) WHERE id =%s"
-        update_value = (bank.deposit,id_input,)
-        mycursor.execute(update_value)
+        user_deposit = int(input("please enter your amount:"))
+        sql = "SELECT * FROM user WHERE id = %s"
+        value = (id_input,)
+        mycursor.execute(sql,value)
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            print(x[4])
+            id_deposit = x[4]
+        deposit = id_deposit + user_deposit
+        # bank.deposit_account()  
+        update ="UPDATE user SET deposit = %s WHERE id = %s"
+        update_value = (deposit,id_input)
+        mycursor.execute(update,update_value)
         mydb.commit() 
+        print('your balance account:',deposit)
     elif input_user == "4":
-        bank.withraw_account()    
+        # bank.withraw_account()  
+        id_input = input("please enter account number:")
+        user_deposit = int(input("please enter your amount:"))
+        sql = "SELECT * FROM user WHERE id = %s"
+        value = (id_input,)
+        mycursor.execute(sql,value)
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            print(x[4])
+            id_deposit = x[4]
+        deposit = id_deposit - user_deposit
+        # bank.deposit_account()  
+        update ="UPDATE user SET deposit = %s WHERE id = %s"
+        update_value = (deposit,id_input)
+        mycursor.execute(update,update_value)
+        mydb.commit() 
+        print('your balance account:',deposit)  
     elif input_user == "5":
-        bank.show_balance()
+        # bank.show_balance()
+        id_input = input("please enter account number:")
+        sql = "SELECT * FROM user WHERE id = %s"
+        value = (id_input,)
+        mycursor.execute(sql,value)
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            balance = x[4]
+        print('your balance account:',balance)    
+            
     elif input_user == "6":
         bank.exit_progrram()         
     else:
