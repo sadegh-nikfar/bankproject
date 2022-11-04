@@ -25,25 +25,18 @@ class user:
         print("\n\n Account created")
         print(self.date.strftime("%x"))
         print("Account Id Number: ",self.id_number)
-        
-
-        
-        
+                        
     def show_account(self):
-        # id_input = input("please enter account number:")
-        # if id_input == self.id_number:
-            print("number id:",self.id_number)
-            print("username:",self.name)
-            print("family:",self.family) 
-            print("age:",self.age) 
-            print("deposit:",self.deposit)
-        # else:
-        #     print("Invalid Choice")    
-        
+        print("number id:",self.id_number)
+        print("username:",self.name)
+        print("family:",self.family) 
+        print("age:",self.age) 
+        print("deposit:",self.deposit)
+   
     def deposit_account(self):
         amount = int(input("please enter amoumt deposit:"))
         self.deposit += amount
-        # print("your amount account:",self.deposit)
+        print("your amount account:",self.deposit)
              
     def withraw_account(self):
         withraw = int(input("please enter your withrawll amount:"))
@@ -55,33 +48,41 @@ class user:
     def show_balance(self):
         print("your account amount:",self.deposit)      
     def exit_progrram(self):
-        return exit()          
+        return exit()       
               
 
-
+welcome = input("Do you have an account? (y/n)")
 bank = user()                
 input_user =""
-num = 3
-while num == 3:
+
+while welcome == "n":
+    print("\t\t\t\t**********************")
+    print("\t\t\t\tBANK MANAGEMENT SYSTEM")
+    print("\t\t\t\t**********************")
+    print("\t\t\t\t\tMAIN MENU")
+    print("\t\t\t\t\tNEW ACCOUNT")
+    bank.create_account()
+    sql = "INSERT INTO user (`id`,`name`, `family`, `age`, `deposit` , `date` ) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (bank.id_number,bank.name,bank.family,bank.age,bank.deposit,bank.date.strftime("%x"))
+    mycursor.execute(sql,val)
+    mydb.commit()
+    bank.exit_progrram()
+
+while welcome == "y":
     print("\t\t\t\t**********************")
     print("\t\t\t\tBANK MANAGEMENT SYSTEM")
     print("\t\t\t\t**********************")
     print("\tMAIN MENU")
-    print("\t1. NEW ACCOUNT")
-    print("\t2.  SHOW ACOOUNT DETAILS")
-    print("\t3. DEPOSIT AMOUNT")
-    print("\t4. WITHDRAW AMOUNT")
-    print("\t5. SHOW BALANCE")
-    print("\t6. EXIT PROGRAM")
-    print("\tSelect Your Option (1-6) ")
+    print("\t1.  SHOW ACOOUNT DETAILS")
+    print("\t2. DEPOSIT AMOUNT")
+    print("\t3. WITHDRAW AMOUNT")
+    print("\t4. SHOW BALANCE")
+    print("\t5. EXIT PROGRAM")
+    print("\tSelect Your Option (1-5) ")
     input_user = input()
+    
     if input_user == "1":
-        bank.create_account()
-        sql = "INSERT INTO user (`id`,`name`, `family`, `age`, `deposit` , `date` ) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = (bank.id_number,bank.name,bank.family,bank.age,bank.deposit,bank.date.strftime("%x"))
-        mycursor.execute(sql,val)
-        mydb.commit()
-    elif input_user == "2":
+        # bank.show_account()
         id_input = input("please enter account number:")
         sql = "SELECT * FROM user WHERE id = %s"
         value = (id_input,)
@@ -96,7 +97,8 @@ while num == 3:
          print("account date created:",x[5])
          
         
-    elif input_user == "3":
+    elif input_user == "2":
+        # bank.deposit_account()
         id_input = input("please enter account number:")
         user_deposit = int(input("please enter your amount:"))
         sql = "SELECT * FROM user WHERE id = %s"
@@ -113,7 +115,7 @@ while num == 3:
         mycursor.execute(update,update_value)
         mydb.commit() 
         print('your balance account:',deposit)
-    elif input_user == "4":
+    elif input_user == "3":
         # bank.withraw_account()  
         id_input = input("please enter account number:")
         user_deposit = int(input("please enter your amount:"))
@@ -125,13 +127,13 @@ while num == 3:
             print(x[4])
             id_deposit = x[4]
         deposit = id_deposit - user_deposit
-        # bank.deposit_account()  
+         
         update ="UPDATE user SET deposit = %s WHERE id = %s"
         update_value = (deposit,id_input)
         mycursor.execute(update,update_value)
         mydb.commit() 
         print('your balance account:',deposit)  
-    elif input_user == "5":
+    elif input_user == "4":
         # bank.show_balance()
         id_input = input("please enter account number:")
         sql = "SELECT * FROM user WHERE id = %s"
@@ -142,11 +144,12 @@ while num == 3:
             balance = x[4]
         print('your balance account:',balance)    
             
-    elif input_user == "6":
+    elif input_user == "5":
         bank.exit_progrram()         
     else:
         print("Invalid choice")  
         input_user = input("Enter your choice : ")  
+        
         
          
 
