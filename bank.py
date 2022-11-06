@@ -16,6 +16,7 @@ class user:
     age = 0
     deposit = 0
     def create_account(self):
+        
         self.date = datetime.datetime.now()
         self.id_number = random.randint(10_000, 99_999)
         self.name = input("please enter your name:")
@@ -23,7 +24,7 @@ class user:
         self.age = input("please enter your age:")
         self.deposit = int(input("please enter your amount deposit:"))
         print("\n\n Account created")
-        print(self.date.strftime("%x"))
+        print(self.date.strftime("%Y-%m-%d %H:%M:%S"))
         print("Account Id Number: ",self.id_number)
                         
     def show_account(self):
@@ -50,7 +51,7 @@ class user:
     def exit_progrram(self):
         return exit()       
               
-
+              
 welcome = input("Do you have an account? (y/n)")
 bank = user()                
 input_user =""
@@ -63,7 +64,7 @@ while welcome == "n":
     print("\t\t\t\t\tNEW ACCOUNT")
     bank.create_account()
     sql = "INSERT INTO user (`id`,`name`, `family`, `age`, `deposit` , `date` ) VALUES (%s, %s, %s, %s, %s, %s)"
-    val = (bank.id_number,bank.name,bank.family,bank.age,bank.deposit,bank.date.strftime("%x"))
+    val = (bank.id_number,bank.name,bank.family,bank.age,bank.deposit,bank.date.strftime("%Y-%m-%d %H:%M:%S"))
     mycursor.execute(sql,val)
     mydb.commit()
     bank.exit_progrram()
@@ -82,19 +83,22 @@ while welcome == "y":
     input_user = input()
     
     if input_user == "1":
+        try:
         # bank.show_account()
-        id_input = input("please enter account number:")
-        sql = "SELECT * FROM user WHERE id = %s"
-        value = (id_input,)
-        mycursor.execute(sql,value)
-        myresult = mycursor.fetchall()
-        for x in myresult:
-         print("number id:",x[0])
-         print("username:",x[1])
-         print("family:",x[2]) 
-         print("age:",x[3]) 
-         print("deposit:",x[4])
-         print("account date created:",x[5])
+            id_input = input("please enter account number:")
+            sql = "SELECT * FROM user WHERE id = %s"
+            value = (id_input,)
+            mycursor.execute(sql,value)
+            myresult = mycursor.fetchall()
+            for x in myresult:
+                print("number id:",x[0])
+                print("username:",x[1])
+                print("family:",x[2]) 
+                print("age:",x[3]) 
+                print("deposit:",x[4])
+                print("account date created:",x[5])
+        except:
+            print('error')
          
         
     elif input_user == "2":
@@ -149,12 +153,4 @@ while welcome == "y":
     else:
         print("Invalid choice")  
         input_user = input("Enter your choice : ")  
-        
-        
-         
-
-    
-
-
-           
         
